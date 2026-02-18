@@ -4,14 +4,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Modules\" />
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
 
 </Project>
