@@ -1,5 +1,7 @@
 # Embedded Network Lab
 
+(See Wiki for further details)
+
 Diagnostic & Validation Tool for Embedded Network Development
 
 ## Features
