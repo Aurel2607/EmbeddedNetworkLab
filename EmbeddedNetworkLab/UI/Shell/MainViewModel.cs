@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using EmbeddedNetworkLab.Core.Services;
 using EmbeddedNetworkLab.Infrastructure.Services;
+using EmbeddedNetworkLab.Modules;
 using EmbeddedNetworkLab.UI.Modules;
 using EmbeddedNetworkLab.UI.Modules.Throughput;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace EmbeddedNetworkLab.UI.Shell
 		private string consoleText = "Console initialized...";
 
 		[ObservableProperty]
-		private ModuleViewModel currentModule;
+		private IModule currentModule;
 
 		[RelayCommand]
 		private void OpenThroughput()
