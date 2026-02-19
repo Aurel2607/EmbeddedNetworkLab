@@ -2,23 +2,24 @@
 using CommunityToolkit.Mvvm.Input;
 using EmbeddedNetworkLab.Core.Services;
 using EmbeddedNetworkLab.Infrastructure.Services;
+using EmbeddedNetworkLab.UI.Modules;
+using EmbeddedNetworkLab.UI.Modules.Throughput;
+using System.Windows;
 
 
 
-namespace EmbeddedNetworkLab.UI.ViewModel
+namespace EmbeddedNetworkLab.UI.Shell
 {
 	public partial class MainViewModel : ObservableObject
 	{
 		private readonly IThroughputService _throughputService;
+		private readonly ThroughputViewModel _throughputModule;
 
 		public MainViewModel()
 		{
 			_throughputService = new ThroughputService();
+			_throughputModule = new ThroughputViewModel(_throughputService);
 
-			_throughputService.RateUpdated += rate =>
-			{
-				SelectedModuleTitle = $"Throughput: {rate:F2} Mbps";
-			};
 		}
 
 		[ObservableProperty]
@@ -27,11 +28,22 @@ namespace EmbeddedNetworkLab.UI.ViewModel
 		[ObservableProperty]
 		private string consoleText = "Console initialized...";
 
+		[ObservableProperty]
+		private ModuleViewModel currentModule;
+
 		[RelayCommand]
 		private void OpenThroughput()
 		{
-			_throughputService.Start();
+			CurrentModule = _throughputModule;
+			AppendLog(CurrentModule.Name + " selected");
 		}
+
+		// Method to append log messages to the console
+		private void AppendLog(string message)
+		{
+			ConsoleText += $"\n[{DateTime.Now:HH:mm:ss}] {message}";
+		}
+
 	}
 
 }
