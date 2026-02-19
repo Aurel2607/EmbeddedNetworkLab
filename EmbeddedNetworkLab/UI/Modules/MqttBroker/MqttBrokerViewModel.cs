@@ -78,8 +78,9 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 				StopExecution();
 			}
 		}
+		private bool CanStart() => !IsRunning;
 
-		[RelayCommand]
+		[RelayCommand(CanExecute = nameof(CanStop))]
 		private async Task Stop()
 		{
 			await _brokerService.StopAsync();
@@ -89,13 +90,13 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 			BrokerMessages.Clear();
 			BrokerEvents.Clear();
 		}
+        private bool CanStop() => IsRunning;
 
-		private bool CanStart() => !IsRunning;
-
-		protected override void OnRunningStateChanged(bool isRunning)
+        protected override void OnRunningStateChanged(bool isRunning)
 		{
 			StartCommand.NotifyCanExecuteChanged();
-		}
+			StopCommand.NotifyCanExecuteChanged();
+        }
 
 		private void LoadNetworkInterfaces()
 		{
