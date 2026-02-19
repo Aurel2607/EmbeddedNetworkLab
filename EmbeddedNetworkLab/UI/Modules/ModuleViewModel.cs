@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EmbeddedNetworkLab.Modules;
 
 namespace EmbeddedNetworkLab.UI.Modules
 {
-	public abstract partial class ModuleViewModel : ObservableObject
+	public abstract partial class ModuleViewModel : ObservableObject, IModule
 	{
 		public abstract string Name { get; }
 
