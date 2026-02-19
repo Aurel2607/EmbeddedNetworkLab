@@ -13,19 +13,13 @@ namespace EmbeddedNetworkLab.UI.Shell
 	public partial class MainViewModel : ObservableObject
 	{
 		private readonly IThroughputService _throughputService;
+		private readonly ThroughputViewModel _throughputModule;
 
 		public MainViewModel()
 		{
 			_throughputService = new ThroughputService();
+			_throughputModule = new ThroughputViewModel(_throughputService);
 
-			_throughputService.RateUpdated += rate =>
-			{
-				// Update the UI on the main thread since this event may be raised from a background thread
-				Application.Current.Dispatcher.Invoke(() =>
-				{
-					SelectedModuleTitle = $"Throughput: {rate:F2} Mbps";
-				});
-			};
 		}
 
 		[ObservableProperty]
@@ -40,7 +34,7 @@ namespace EmbeddedNetworkLab.UI.Shell
 		[RelayCommand]
 		private void OpenThroughput()
 		{
-			CurrentModule = new ThroughputViewModel(_throughputService);
+			CurrentModule = _throughputModule;
 			AppendLog(CurrentModule.Name + " selected");
 		}
 

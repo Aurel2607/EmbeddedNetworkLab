@@ -4,8 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmbeddedNetworkLab"
+        xmlns:vm="clr-namespace:EmbeddedNetworkLab.UI.Modules.Throughput"
+        xmlns:views="clr-namespace:EmbeddedNetworkLab.UI.Modules.Throughput"    
         mc:Ignorable="d"
         Title="Embedded Network Lab" Height="916" Width="865">
+    
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:ThroughputViewModel}">
+            <views:ThroughputView />
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <!-- Ligne principale -->
@@ -57,3 +66,6 @@
         </Border>
     </Grid>
 </Window>
+
+
+    
