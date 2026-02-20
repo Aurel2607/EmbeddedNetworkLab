@@ -1,4 +1,5 @@
-﻿using MQTTnet;
+﻿using EmbeddedNetworkLab.Core.Logging;
+using MQTTnet;
 using MQTTnet.Diagnostics.Logger;
 using MQTTnet.Server;
 using MQTTnet.Server.Internal.Adapter;
@@ -23,7 +24,7 @@ namespace EmbeddedNetworkLab.Core
 		/// Event raised whenever a message is intercepted by the broker
 		/// </summary>
 		public event EventHandler<string>? MessageIntercepted;
-		public event EventHandler<string>? BrokerEvent;
+		public event EventHandler<BrokerEvent>? BrokerEventTriggered;
 
 		//------------------------------------------------------------------------------
 		/// \brief Start the broker on the given port (default 1883)
@@ -88,15 +89,13 @@ namespace EmbeddedNetworkLab.Core
 			// Track client connections
 			_server.ClientConnectedAsync += args =>
 			{
-				var ts = DateTime.Now.ToString("HH:mm:ss");
-				BrokerEvent?.Invoke(this, $"{ts} [CONNECT] Client {args.ClientId}");
+				BrokerEventTriggered?.Invoke(this, new BrokerEvent(DateTime.Now, BrokerEventLevel.Info, $"[CONNECT] Client {args.ClientId}"));
 				return Task.CompletedTask;
 			};
 
 			_server.ClientDisconnectedAsync += args =>
 			{
-				var ts = DateTime.Now.ToString("HH:mm:ss");
-				BrokerEvent?.Invoke(this, $"{ts} [DISCONNECT] Client {args.ClientId}");
+				BrokerEventTriggered?.Invoke(this, new BrokerEvent(DateTime.Now, BrokerEventLevel.Info, $"[DISCONNECT] Client {args.ClientId}"));
 				return Task.CompletedTask;
 			};
 

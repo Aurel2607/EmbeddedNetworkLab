@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmbeddedNetworkLab.Core.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,6 @@ namespace EmbeddedNetworkLab.Core
 		event EventHandler<string>? MessageIntercepted;
 
 		/// \brief Event triggered by broker status changes (client connected/disconnected, started, stopped, etc.)
-		event EventHandler<string>? BrokerEvent;   // << new
+		event EventHandler<BrokerEvent>? BrokerEventTriggered;
 	}
 }

@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EmbeddedNetworkLab.Core;
+using EmbeddedNetworkLab.Core.Logging;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 
 namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 {
@@ -11,11 +14,16 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 	{
 		private readonly IMqttBrokerService _brokerService;
 
+		private long _eventCounter;
+
 		public override string Name => "MQTT Broker";
 
 		public ObservableCollection<string> NetworkInterfaces { get; } = new();
 		public ObservableCollection<string> BrokerMessages { get; } = new();
-		public ObservableCollection<string> BrokerEvents { get; } = new();
+		public ObservableCollection<BrokerEvent> BrokerEvents { get; } = new();
+
+		public ICollectionView BrokerEventsView { get; }
+
 
 		[ObservableProperty]
 		private int brokerPort = 1883;
@@ -44,11 +52,17 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 					BrokerMessages.Add(msg));
 			};
 
-			_brokerService.BrokerEvent += (s, evt) =>
+			_brokerService.BrokerEventTriggered += (s, evt) =>
 			{
 				Application.Current.Dispatcher.Invoke(() =>
 					BrokerEvents.Add(evt));
 			};
+
+			BrokerEventsView = CollectionViewSource.GetDefaultView(BrokerEvents);
+
+			BrokerEventsView.SortDescriptions.Add(
+						new SortDescription(nameof(BrokerEvent.Timestamp),
+						ListSortDirection.Descending));
 
 			LoadNetworkInterfaces();
 		}
