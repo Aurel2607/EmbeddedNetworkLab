@@ -86,46 +86,90 @@
         </StackPanel>
 
         <!-- EVENTS -->
-        <GroupBox Grid.Row="2" Header="System" Margin="0,0,0,10">
-            <ListBox ItemsSource="{Binding BrokerEventsView}"
-                ItemTemplateSelector="{StaticResource BrokerEventSelector}"
-                Height="120">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Foreground" Value="Black"/>
+        <GroupBox Grid.Row="2" Header="Events" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-                        <Style.Triggers>
+                <!-- Top bar -->
+                <DockPanel Grid.Row="0" 
+                        Margin="0,0,0,5">
+                    <Button DockPanel.Dock="Right"
+                            Content="✕"
+                            ToolTip="Clear events"
+                            Width="22"
+                            Height="22"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ClearSystemEventsCommand}"/>
+                </DockPanel>
 
-                            <DataTrigger Binding="{Binding Level}"
-                         Value="{x:Static core:BrokerEventLevel.Info}">
-                                <Setter Property="Foreground" Value="DodgerBlue"/>
-                            </DataTrigger>
 
-                            <DataTrigger Binding="{Binding Level}"
-                         Value="{x:Static core:BrokerEventLevel.Warning}">
-                                <Setter Property="Foreground" Value="DarkOrange"/>
-                            </DataTrigger>
+                <!-- List -->
+                <ListBox Grid.Row="1"
+                     ItemsSource="{Binding BrokerEventsView}"
+                     ItemTemplateSelector="{StaticResource BrokerEventSelector}"
+                     Height="120"
+                     Margin="0,5,0,0">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Foreground" Value="Black"/>
 
-                            <DataTrigger Binding="{Binding Level}"
-                         Value="{x:Static core:BrokerEventLevel.Error}">
-                                <Setter Property="Foreground" Value="Red"/>
-                            </DataTrigger>
+                            <Style.Triggers>
 
-                            <DataTrigger Binding="{Binding Level}"
-                         Value="{x:Static core:BrokerEventLevel.Debug}">
-                                <Setter Property="Foreground" Value="Gray"/>
-                            </DataTrigger>
+                                <DataTrigger Binding="{Binding Level}"
+                                             Value="{x:Static core:BrokerEventLevel.Info}">
+                                    <Setter Property="Foreground" Value="DodgerBlue"/>
+                                </DataTrigger>
 
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                                <DataTrigger Binding="{Binding Level}"
+                                             Value="{x:Static core:BrokerEventLevel.Warning}">
+                                    <Setter Property="Foreground" Value="DarkOrange"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Level}"
+                                             Value="{x:Static core:BrokerEventLevel.Error}">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Level}"
+                                             Value="{x:Static core:BrokerEventLevel.Debug}">
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
         </GroupBox>
 
         <!-- MESSAGES -->
         <GroupBox Grid.Row="3" Header="Messages">
-            <ListBox ItemsSource="{Binding BrokerMessagesView}"
-                ItemTemplateSelector="{StaticResource BrokerEventSelector}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" 
+                           Margin="0,0,0,5">
+                    <Button DockPanel.Dock="Right"
+                        Content="✕"
+                        ToolTip="Clear messages"
+                        Width="22"
+                        Height="22"
+                        Padding="0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ClearMessageEventsCommand}"/>
+                </DockPanel>
+
+                <ListBox Grid.Row="1"
+                 ItemsSource="{Binding BrokerMessagesView}"
+                 ItemTemplateSelector="{StaticResource BrokerEventSelector}"/>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

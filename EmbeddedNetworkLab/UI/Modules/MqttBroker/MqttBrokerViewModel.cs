@@ -66,7 +66,7 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 						ListSortDirection.Descending));
 
 			BrokerMessagesView = CollectionViewSource.GetDefaultView(BrokerMessages);
-			
+
 			BrokerMessagesView.SortDescriptions.Add(
 						new SortDescription(nameof(BrokerEvent.Timestamp),
 						ListSortDirection.Descending));
@@ -113,7 +113,7 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 			BrokerMessages.Clear();
 			BrokerEvents.Clear();
 		}
-        private bool CanStop() => IsRunning;
+		private bool CanStop() => IsRunning;
 
 		protected override void OnRunningStateChanged(bool isRunning)
 		{
@@ -143,6 +143,19 @@ namespace EmbeddedNetworkLab.UI.Modules.MqttBroker
 				NetworkInterfaces.Add(ip);
 
 			SelectedBindIp = NetworkInterfaces.FirstOrDefault();
+		}
+
+
+		[RelayCommand]
+		private void ClearSystemEvents()
+		{
+			BrokerEvents.Clear();
+		}
+
+		[RelayCommand]
+		private void ClearMessageEvents()
+		{
+			BrokerMessages.Clear();
 		}
 	}
 }
